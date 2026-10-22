@@ -1,0 +1,10 @@
+{
+  "name": "tempo-semaine",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/domain.test.mjs && node tests/history.test.mjs && node tests/archive.test.mjs && node scripts/check-lines.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

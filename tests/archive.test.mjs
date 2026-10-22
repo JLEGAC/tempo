@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import { parseArchive, mergeArchive } from '../dist/domain/archive.mjs';
+import { currentWorked } from '../dist/domain/current.mjs';
+const input = `| 19/10/26 | 08:53 | 13:05 | 13:47 | 17:37 |
+| 22/10/26 | 08:44 | | | |`;
+const records = parseArchive(input);
+const weeks = mergeArchive(records, [], 2280);
+assert.equal(records.length, 2);
+assert.deepEqual(weeks[0].days[3].times, ['08:44', null, null, null]);
+assert.equal(currentWorked(weeks[0], new Date(2026,9,22,10,0)), 482 + 76);
+assert.equal(currentWorked(weeks[0], new Date(2026,9,23,10,0)), 482);
+const next = mergeArchive(parseArchive('20/10/2026\t07:42\t13:00\t13:39\t17:52'), weeks, 2100);
+assert.equal(next[0].target, 2280);
+assert.equal(next[0].days[0].times[0], '08:53');
+assert.equal(next[0].days[1].times[0], '07:42');
+assert.throws(() => parseArchive('31/02/26\t08:00\t13:00\t13:30\t17:00'));
+assert.throws(() => parseArchive(input + '\n' + input));
+assert.throws(() => mergeArchive(parseArchive('19/10/26\t13:00\t08:00\t13:30\t17:00'), [], 2280));
+const lunch = mergeArchive(parseArchive('22/10/26\t09:00\t13:00\t13:30\t'), [], 2280);
+assert.equal(currentWorked(lunch[0], new Date(2026,9,22,13,15)), 240);
+assert.equal(currentWorked(lunch[0], new Date(2026,9,22,14,0)), 270);
+console.log('Import historique, fusion par date et jauge réelle : OK.');

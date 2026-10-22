@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#526e7f">
+  <meta name="description" content="Simulez vos horaires et équilibrez votre semaine de travail.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/layout.css">
+  <link rel="stylesheet" href="./styles/theme.css">
+  <link rel="stylesheet" href="./styles/gauge.css">
+  <title>Tempo — Ma semaine</title>
+</head>
+<body>
+  <header>
+    <a href="#" class="brand"><span class="logo">t</span>tempo<span class="tag">MON TEMPS, EN CLAIR</span></a>
+    <nav aria-label="Navigation principale">
+      <button id="weekNav" class="nav active">📅 Ma semaine</button>
+      <button id="statsNav" class="nav">📊 Statistiques</button>
+      <button id="settingsNav" class="nav">⚙️ Paramètres</button>
+      <button id="themeToggle" class="themeToggle" type="button" aria-label="Activer le thème sombre" aria-pressed="false">☾</button>
+      <button id="install" hidden>Installer</button>
+    </nav>
+  </header>
+  <main>
+    <section id="weekView">
+      <div class="heading">
+        <div>
+          <p class="eyebrow">LE BON RYTHME</p>
+          <h1>Une semaine à votre mesure.</h1>
+          <p class="muted">Vos badgeages réels. Vos horaires à venir. Une vision claire du vendredi.</p>
+        </div>
+        <button id="importBtn" class="primary">＋ Coller mes badgeages</button>
+      </div>
+      <div class="summary">
+        <article><p>Objectif hebdomadaire</p><strong id="target"></strong><small>Modifiable dans les paramètres</small></article>
+        <article><p>Total prévisionnel</p><strong id="total"></strong><small>Badgeages réels + simulation</small></article>
+        <article class="balance"><p>Solde en fin de semaine</p><strong id="balance"></strong><small id="balanceText"></small></article>
+      </div>
+      <article id="liveGauge" class="sheet chartCard"></article>
+      <p id="countdown" class="countdown" aria-live="off"></p>
+      <div class="sheet">
+        <div class="sheetHead">
+          <div><h2>Mon planning</h2><label class="muted">Semaine du <input id="weekDate" type="date" aria-label="Lundi de la semaine"></label></div>
+          <div class="legend"><span>● Réel</span><span>● Simulation</span></div>
+        </div>
+        <div class="tableWrap">
+          <table>
+            <thead><tr><th>Jour</th><th>Arrivée</th><th>Déjeuner</th><th>Reprise</th><th>Départ</th><th>Pause</th><th>Effectif</th><th>Cumul prévu</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <div class="sheetFoot"><p>L’équilibrage utilise les horaires futurs non verrouillés. Les badgeages réels restent fixes.</p><span id="impact" aria-live="polite"></span></div>
+      </div>
+      <div class="actions">
+        <button id="undoBtn" disabled>Annuler le dernier équilibrage</button>
+        <button id="nowBtn">◷ Si je pars maintenant</button>
+        <button id="balanceBtn" class="primary">Équilibrer ma semaine ↗</button>
+      </div>
+      <p class="note">Semaines indépendantes. Le cumul inclut les simulations. Les règles et arrondis spécifiques de votre portail de pointage ne sont pas reproduits.</p>
+    </section>
+    <section id="settingsView" hidden>
+      <p class="eyebrow">VOTRE SEMAINE TYPE</p>
+      <h1>À chacun son rythme.</h1>
+      <p class="muted">Ces réglages restent sur cet appareil. Les badgeages réels importés alimentent les graphiques. Les horaires simulés ne sont pas enregistrés.</p>
+      <div class="sheet settings">
+        <div class="settingsGrid">
+          <label>Objectif hebdomadaire <input id="goal" type="text" inputmode="numeric" placeholder="38:00"><small>heures:minutes</small></label>
+          <label>Apparence <select id="theme"><option value="light">Thème clair</option><option value="dark">Thème sombre</option></select></label>
+          <div><p>Ordre de préférence pour équilibrer la semaine</p><div id="priorityOrder"></div></div>
+          <label>Lien vers votre portail de pointage <input id="kelioUrl" type="url"></label>
+        </div>
+        <h2>Plages autorisées et limites de confort</h2>
+        <p class="muted">Les limites sont configurables pour votre organisation. 00:00 signifie aucune borne matinale supplémentaire. Une pause minimale de 0 minute est possible. Les limites de confort restreignent le calcul automatique.</p>
+        <div id="rulesFields" class="settingsGrid"></div>
+        <h2>Horaires habituels et verrouillages</h2>
+        <p class="muted">Lors d’un clic sur « Équilibrer ma semaine », si vous avez trop d’heures, l’application privilégie le départ plus tôt, le déjeuner plus long ou l’arrivée plus tard selon l’ordre choisi. S’il manque des heures, elle ajuste dans le sens inverse, dans vos limites.</p>
+        <div class="tableWrap">
+          <table><thead><tr><th>Jour</th><th>Arrivée</th><th>Déjeuner</th><th>Reprise</th><th>Départ</th></tr></thead><tbody id="schedule"></tbody></table>
+        </div>
+        <button id="saveSettings" class="primary">Enregistrer mes paramètres</button>
+        <p class="muted">La sauvegarde JSON contient les réglages et les semaines enregistrées. À l’import, les mêmes dates sont remplacées ; les autres semaines sont conservées. Les anciens fichiers de réglages restent acceptés.</p>
+        <button id="export">Exporter la sauvegarde complète</button>
+        <button id="importSettings">Importer une sauvegarde</button>
+        <input id="settingsFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </section>
+    <section id="statsView" hidden>
+      <p class="eyebrow">VOTRE TEMPS AU FIL DES SEMAINES</p>
+      <h1>Vos semaines en perspective.</h1>
+      <p class="muted">Graphiques fondés uniquement sur vos badgeages réels importés, conservés sur cet appareil.</p>
+      <button id="historyImport" type="button">Importer d’anciens badgeages</button>
+      <div id="statsEmpty" class="sheet chartCard"><h2>Aucun badgeage enregistré</h2><p>Collez une semaine depuis votre portail de pointage pour commencer. Les anciens collages non sauvegardés ne peuvent pas être récupérés.</p></div>
+      <div id="statsContent" hidden>
+        <div class="chartToolbar"><label>Période <select id="statsRange"><option value="4">4 dernières semaines enregistrées</option><option value="12" selected>12 dernières semaines enregistrées</option><option value="26">26 dernières semaines enregistrées</option><option value="0">Toutes les semaines</option></select></label></div>
+        <p id="statsInfo" class="muted"></p>
+        <article class="sheet chartCard"><h2>Graphique des semaines</h2><p class="chartLegend">■ Réel complet · ▧ Réel incomplet · □ Objectif enregistré</p><div id="weeksChart" class="chartScroll"></div></article>
+        <article class="sheet chartCard"><div class="chartToolbar"><h2>Graphique hebdomadaire</h2><label>Semaine <select id="statsWeek"></select></label></div><p id="dailyInfo" class="muted"></p><div id="dailyChart" class="chartScroll"></div></article>
+        <article class="sheet chartCard"><div class="chartToolbar"><h2>Évolution des habitudes</h2><label>Indicateur <select id="habitMetric"><option value="arrival">Arrivée</option><option value="departure">Départ</option><option value="lunch">Déjeuner</option></select></label></div><p id="habitsInfo" class="muted"></p><div id="habitsChart" class="chartScroll"></div></article>
+      </div>
+    </section>
+    <p id="message" role="status" aria-live="polite"></p>
+  </main>
+  <footer>tempo <span>Un peu d’anticipation. Plus de liberté.</span></footer>
+  <dialog id="pasteDialog">
+    <form method="dialog"><button class="close" aria-label="Fermer">×</button></form>
+    <p class="eyebrow">VOS BADGEAGES, EN UN CLIC</p>
+    <h2>Importer mes badgeages</h2>
+    <div id="importHelp" hidden>
+      <p id="importHelpText"></p>
+      <a id="kelioLink" class="sourceLink" target="_blank" rel="noopener noreferrer">Ouvrir mes résultats ↗</a>
+      <button id="retryImport" type="button">＋ Coller mes badgeages</button>
+    </div>
+    <p>Copiez le tableau de présence de votre semaine puis utilisez le bouton de collage. Vous pouvez aussi coller directement ici.</p>
+    <textarea id="paste" rows="7" placeholder="Collez ici avec Ctrl + V…" aria-label="Badgeages"></textarea>
+    <p class="muted">Chaque collage reconnu crée une nouvelle simulation indépendante.</p>
+    <button id="analyze" class="primary">Importer le texte saisi</button>
+  </dialog>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

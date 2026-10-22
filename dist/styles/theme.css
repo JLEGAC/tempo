@@ -1,0 +1,130 @@
+html[data-theme=dark] {
+  color-scheme:dark;
+  background:#212830;
+  color:#ededed
+}
+html[data-theme=dark] header,html[data-theme=dark] footer {
+  border-color:#46505a
+}
+html[data-theme=dark] .brand,html[data-theme=dark] h1,html[data-theme=dark] h2 {
+  color:#f0f0f0
+}
+html[data-theme=dark] button,html[data-theme=dark] select {
+  background:#353b42;
+  color:#eee;
+  border-color:#666
+}
+html[data-theme=dark] .primary {
+  background:#526e7f;
+  color:#fff;
+  border-color:#8299a7
+}
+html[data-theme=dark] .primary:hover {
+  background:#637f90
+}
+html[data-theme=dark] .nav {
+  background:transparent;
+  color:#c7c7c7
+}
+html[data-theme=dark] .nav.active {
+  background:#353b42;
+  color:#fff
+}
+html[data-theme=dark] .sheet,html[data-theme=dark] .summary article,html[data-theme=dark] dialog {
+  background:#26292b;
+  color:#ededed;
+  border-color:#46505a
+}
+html[data-theme=dark] .summary .balance {
+  background:#30363d;
+  border-color:#747474
+}
+html[data-theme=dark] th {
+  background:#30363d;
+  color:#d2d2d2;
+  border-color:#46505a
+}
+html[data-theme=dark] td {
+  border-color:#46505a
+}
+html[data-theme=dark] .today {
+  background:#30363d
+}
+html[data-theme=dark] .today td:first-child {
+  border-left-color:#a9bdc9
+}
+html[data-theme=dark] .timebox input {
+  background:#49453e;
+  color:#f0dfbd;
+  border-color:#8d8270
+}
+html[data-theme=dark] .timebox input.real {
+  background:#3b4a54;
+  color:#dbeaf3;
+  border-color:#7794a6
+}
+html[data-theme=dark] .lock[aria-pressed=true] {
+  background:#616161
+}
+html[data-theme=dark] .muted,html[data-theme=dark] .summary p,html[data-theme=dark] .summary small,html[data-theme=dark] .note,html[data-theme=dark] .sheetFoot,html[data-theme=dark] footer,html[data-theme=dark] #message,html[data-theme=dark] .eyebrow,html[data-theme=dark] td small,html[data-theme=dark] .tag {
+  color:#c4c4c4
+}
+html[data-theme=dark] .legend {
+  color:#b7d4e5
+}
+html[data-theme=dark] .legend span+span {
+  color:#e0c796
+}
+html[data-theme=dark] .sheetHead input,html[data-theme=dark] #goal,html[data-theme=dark] textarea {
+  background:#353b42;
+  color:#eee;
+  border-color:#6c6c6c
+}
+html[data-theme=dark] .logo {
+  background:#526e7f;
+  color:white
+}
+.timebox input.outside {
+  outline:2px solid #b27545;
+  outline-offset:2px
+}
+html[data-theme=dark] .timebox input.outside {
+  outline-color:#e9b47f
+}
+.themeToggle {
+  width:44px;
+  height:44px;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  flex-shrink:0
+}
+.themeToggle:hover {
+  border-color:#526e7f
+}
+@media(max-width:450px) {
+  header {
+  padding:16px 12px
+}
+nav {
+  gap:3px
+}
+.themeToggle {
+  width:38px;
+  height:38px
+}
+.brand {
+  gap:6px
+}
+}
+
+html[data-theme=dark] .settingsGrid input, html[data-theme=dark] .settingsGrid select { background: #353b42; color: #eee; }
+html[data-theme=dark] .warning { color: #e6b17b !important; }
+html[data-theme=dark] .countdown { background: #26292b; color: #e5e8ed; }
+html[data-theme=dark] .chartLabel, html[data-theme=dark] .chartLegend { fill: #c4cbd1; color: #c4cbd1; }
+html[data-theme=dark] .chartActual, html[data-theme=dark] .chartPoint { fill: #a4c6d9; }
+html[data-theme=dark] .chartTrend { stroke: #a4c6d9; }
+html[data-theme=dark] .chartPartial { fill: #b5a583; stroke: #eadab5; }
+html[data-theme=dark] .chartTarget { stroke: #d4d8dc; }

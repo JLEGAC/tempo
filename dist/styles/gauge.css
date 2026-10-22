@@ -1,0 +1,14 @@
+.liveGauge { display: flex; align-items: center; gap: 28px; }
+.liveGauge svg { width: 220px; max-width: 100%; flex-shrink: 0; }
+.liveGauge strong { font-size: 2rem; }
+.gaugeTrack, .gaugeFill { fill: none; stroke-width: 18; }
+.gaugeTrack { stroke: #8395a044; }
+.gaugeFill { stroke: #526e7f; }
+.gaugeNeedle { fill: #526e7f; }
+[data-theme="dark"] .gaugeFill { stroke: #a4c6d9; }
+[data-theme="dark"] .gaugeNeedle { fill: #a4c6d9; }
+.historyFields { display: grid; gap: 14px; }
+.historyFields textarea { width: 100%; box-sizing: border-box; }
+@media (max-width: 650px) {
+  .liveGauge { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
